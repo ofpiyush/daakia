@@ -4,7 +4,7 @@ import (
 	"io"
 	"encoding/binary"
 	"errors"
-	"github.com/daakia/middleware"
+	"github.com/daakia/daakia/middleware"
 )
 
 var (
