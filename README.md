@@ -37,3 +37,4 @@ Daakia borrows the best ideas from all types of messaging systems and (to my kno
 * Multiple underlying transports should be supported and each should use the strengths of the transport.
 * Write libraries and tutorials for most common synchronous/asynchronous messaging use cases.
 * Marshalling and Unmarshalling to popular formats should be easy at the cost of a few allocations.
+* Allow various types of messaging mechanisms to co-exist on exactly one persistent connection.
