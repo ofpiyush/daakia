@@ -1,40 +1,41 @@
 # Daakia
 
-Daakia helps you hack a messaging protocol / build your own.
+High performance, Simple messaging framework.
 
-Code and API are extremely unstable. The project is at an experimental stage right now. Use at your own risk
 
 
 ## Why Daakia?
 
-### The conflict
-* Traditional messaging servers and protocols are treated as rigid black boxes.
-* Businesses change quickly and need flexibility. 
-* Often, it boils down to features that warrant a slightly different protocol/protocol that could be extended.
-* Different types of messaging often need us to work with different set of tools/ open multiple connections of various lifetimes with the backend.
+#### Traditional messaging protocols are rigid.
+__Possible Solution:__
 
-### Current possible resolutions
+Write code around/on top of the messaging software!
+A Sub-protocol on application messages sound familiar? (Text message/buttons/audio/system messages etc...)
+__Cons:__
 
-#### Write code around/on top of the messaging layer.
-This is the most common approach taken. A Sub-protocol on application messages sound familiar? (Text message/buttons/audio/system messages etc...)
+* It needs developers across different teams to implement the same set of features and use documentation to co-ordinate.
+* Forwards and backwards compatibility can be very tricky given the different speed of releases between mobile native apps, websites, and servers.
 
-This approach can open gates to a host of bugs.
-* It needs developers across different teams to implement the same set of features.
-* Given the different speeds of releases between mobile native apps, websites and servers, this can be very tricky in terms of forwards and backwards compatibility.
 
-#### Use the plugins/extensions
-If the messaging server has a good extensions/plugins system, write extensions to support! This by far is the best solution out there. It still doesn't solve the problems with sub-protocols.
+#### Traditional messaging servers/brokers are rigid.
+__Possible Solution:__
 
-#### Hack the messaging server.
-These hacks are often put in places which might make it incompatible with future updates of the software.
+Write the plugins/extensions for your feature!
 
-### The Daakia way.
-Daakia borrows the best ideas from all types of messaging systems and (to my knowledge) throws in some of it's own.
+__Cons:__
+* Often, the software is in an unfamiliar language.
+* A plugin is limited to the code accessible. The part you want to tweak might just need hacking the software.
+* Your plugin might need changes every now and then depending on the release.
 
-* The protocol and message types should be extensible, forwards and backwards compatible.
-* Messages should be serialized in a binary format that allows random access through a byte buffer across languages and platforms without additional parsing/ allocation. 
-* Shared objects(messages), serialization/deserialization and routing code should be generated from a source file written in a common language (daak lang?).
-* Multiple underlying transports should be supported and each should use the strengths of the transport.
-* Write libraries and tutorials for most common synchronous/asynchronous messaging use cases.
-* Marshalling and Unmarshalling to popular formats should be easy at the cost of a few allocations.
-* Allow various types of messaging mechanisms to co-exist on exactly one persistent connection.
+#### Bonus Problems
+* One WebSocket/TCP connection for messaging, random number of expensive http calls to services for request/response type of messages.
+* Serialize and deserialize in various formats (often with allocations) between the client and various services.
+
+### The Daakia solution.
+You write your own protocol and export in your language. Daakia works on any transport protocol in any language. 
+ 
+A single connection handles everything from request response to streaming use cases.
+
+Our recommended way to use Daakia is with flatbuffers.
+
+You get cross language 0 allocation serialization/deserialization with flatbuffers.
