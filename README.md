@@ -38,4 +38,4 @@ A single connection handles everything from request response to streaming use ca
 
 Our recommended way to use Daakia is with flatbuffers.
 
-You get cross language 0 allocation serialization/deserialization with flatbuffers.
+You can get cross language 0 allocation serialization/deserialization with flatbuffers.
