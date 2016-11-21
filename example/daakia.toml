@@ -1,0 +1,20 @@
+namespace = "daakia"
+[[services]]
+	name = "TwoWayPublish"
+	[[services.server]]
+		name = "Publish"
+		in = true
+	[[services.server]]
+		name = "PubAck"
+		in = true
+	[[services.client]]
+		name = "Publish"
+		in = true
+	[[services.client]]
+		name = "PubAck"
+		in = true
+
+[[services]]
+	name = "Echo"
+	[[services.server]]
+		name = "yolo"

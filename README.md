@@ -1,8 +1,62 @@
 # Daakia
 
-High performance, Simple messaging framework.
+High performance, Simple messaging framework. 
+
+Describe your Methods -> Generate code for client and server -> Code!
+
+## Installation
+
+### Get the Source
+```bash
+$ go get github.com/daakia/daakia
+$ cd $GOPATH/src/github.com/daakia/daakia
+```
+
+### Point to the correct remote and pull (only till the code is stable, tested and is merged into daakia)
+```bash
+$ git remote add piyush https://github.com/ofpiyush/daakia.git
+$ git pull piyush master
+```
+
+### Install
+```bash
+$ cd cmd/daakia
+$ go install
+```
 
 
+## Usage
+
+### Create a toml file
+
+```toml
+# daakia.toml
+namespace = "daakia"
+[[services]]
+	name = "TwoWayPublish"
+	[[services.server]]
+		name = "Publish"
+		in = true
+	[[services.server]]
+		name = "PubAck"
+		in = true
+	[[services.client]]
+		name = "Publish"
+		in = true
+	[[services.client]]
+		name = "PubAck"
+		in = true
+
+[[services]]
+	name = "Echo"
+	[[services.server]]
+		name = "yolo"
+```
+
+### Generate code
+```
+$ daakia --go --js -i ./daakia.toml -o ./out/path/here
+```
 
 ## Why Daakia?
 

@@ -1,0 +1,41 @@
+{{ $ns := .Namespace}}
+var {{$ns}} = this.{{$ns}} || {};
+{{$service := .Name}}
+{{$ns}}.{{$service}} = function(Client,Transport) {
+  if (!this instanceof {{$ns}}.{{$service}}) {
+    throw Error("{{$ns}}.{{$service}} called without the new keyword");
+  }
+  this.transport = Transport;
+  this.client = new Client(this);
+  this.transport.OnConnect(this.client._Connected.bind(this.client));
+  {{range $key, $value := .Server}}
+  this.{{$value.Name}}Header =  new Uint8Array([{{$ns}}.{{$service}}.Methods.Server_{{$value.Name}}])
+  {{end}}
+  this.transport.Next(this.Route.bind(this));
+  this.transport.Connect();
+};
+{{$ns}}.{{$service}}.Methods = { {{range $key, $value := .Server}}
+	Server_{{$value.Name}}: {{$key}},{{end}}{{range $key, $value := .Client}}
+	Client_{{$value.Name}}: {{$key}},{{end}}
+};
+{{$ns}}.{{$service}}.prototype.Route = function (message) {
+	var route = new Uint8Array(message,1,1);
+    var buffer = new Uint8Array(message,1);
+    switch (route[0]) {
+    {{range $key,$value := .Client}}
+      case {{$ns}}.{{$service}}.Methods.Client_{{$value.Name}}:
+      	this.client.{{$value.Name}}(buffer);
+        break;
+    {{end}}
+    }
+};
+{{range $key,$value := .Server}}
+{{$ns}}.{{$service}}.prototype.{{$value.Name}} = function({{if $value.In}}payload{{end}}) {
+  this.transport.Send(this.{{$value.Name}}Header{{if $value.In}}, payload{{end}});
+};
+{{end}}
+
+{{$ns}}.{{$service}}.prototype.close = function() {
+	this.transport.close();
+}
+this.{{$ns}} = {{$ns}};

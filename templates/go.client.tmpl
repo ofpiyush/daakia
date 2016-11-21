@@ -1,0 +1,50 @@
+package {{ .Namespace | lower}}
+
+import (
+	"github.com/daakia/daakia-go"
+	"log"
+)
+{{$service_name := .Name}}
+const ({{range $key, $value :=  .Server}}
+	{{$service_name}}_Server_{{$value.Name}} = {{$key}}{{end}}{{range $key, $value :=  .Client}}
+	{{$service_name}}_Client_{{$value.Name}} = {{$key}}{{end}}
+)
+
+type {{$service_name}}Client interface {{`{`}}{{range .Client}}
+	{{ .Name}}({{if .In }}[]byte{{end}}) error{{end}}
+}
+
+func New{{$service_name}}ClientRouter(client {{$service_name}}Client, logger *log.Logger) *{{$service_name}}Router {
+	return &{{$service_name}}Router {
+		Client: client,
+		Logger: logger,
+	}
+}
+
+type {{$service_name}}Router struct {
+	Client      {{$service_name}}Client
+	Logger      *log.Logger
+}
+
+func (r *{{$service_name}}Router) Route(buf []byte) error {
+	switch buf[0] {{`{`}}{{range .Client}}
+	case {{$service_name}}_Client_{{ .Name}}:
+		err := r.Client.{{ .Name}}({{if .In }}buf[1:]{{end}})
+		if err != nil {
+			r.Logger.Println(err)
+			return err
+		}{{end}}
+	}
+	return nil
+}
+
+type {{$service_name}}Server struct {
+	Connection daakia.Conn
+}
+{{range .Server}}
+func(c *{{$service_name}}Server) {{.Name}}({{if .In}}payload []byte{{end}}) error {
+	routing := []byte{{`{`}}{{$service_name}}_Server_{{.Name}}{{`}`}}
+	err := c.Connection.Send(routing{{if .In}}, payload{{end}})
+	return err
+}
+{{end}}
