@@ -6,22 +6,9 @@ Describe your Methods -> Generate code for client and server -> Code!
 
 ## Installation
 
-### Get the Source
 ```bash
-$ go get github.com/daakia/daakia
-$ cd $GOPATH/src/github.com/daakia/daakia
-```
-
-### Point to the correct remote and pull (only till the code is stable, tested and is merged into daakia)
-```bash
-$ git remote add piyush https://github.com/ofpiyush/daakia.git
-$ git pull piyush master
-```
-
-### Install
-```bash
-$ cd cmd/daakia
-$ go install
+$ go get -u github.com/daakia/daakia
+$ go install github.com/daakia/daakia/cmd/daakia
 ```
 
 
@@ -37,20 +24,9 @@ namespace = "daakia"
 	[[services.server]]
 		name = "Publish"
 		in = true
-	[[services.server]]
-		name = "PubAck"
-		in = true
 	[[services.client]]
 		name = "Publish"
 		in = true
-	[[services.client]]
-		name = "PubAck"
-		in = true
-
-[[services]]
-	name = "Echo"
-	[[services.server]]
-		name = "yolo"
 ```
 
 ### Generate code
