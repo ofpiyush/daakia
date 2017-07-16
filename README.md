@@ -4,6 +4,12 @@ High performance, Simple messaging framework.
 
 Describe your Methods -> Generate code for client and server -> Code!
 
+## Note
+As is evident from the commits, daakia is not being actively maintained.
+
+My current job commitments leave little room for anything else. I wish to resume work on it someday, but that day does not look near.
+
+If you'd like to work on it, open an issue :)
 ## Installation
 
 ```bash
